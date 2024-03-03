@@ -3,6 +3,7 @@ package serializer
 import (
 	"encoding/binary"
 	"fmt"
+	"math/big"
 )
 
 type Deserializer struct {
@@ -132,4 +133,7 @@ func (s *Deserializer) ReadBool() bool {
 		s.Error = fmt.Errorf(getCaller() + " invalid boolean value")
 		return false
 	}
+}
+func (s *Deserializer) ReadBigInt() *big.Int {
+	return (&big.Int{}).SetBytes(s.ReadByteSlice())
 }
