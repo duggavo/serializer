@@ -11,20 +11,21 @@ import (
 )
 
 type Serializer struct {
-	Data []byte
+	Data   []byte
+	Endian binary.AppendByteOrder
 }
 
 func (s *Serializer) AddUint8(n uint8) {
 	s.Data = append(s.Data, n)
 }
 func (s *Serializer) AddUint16(n uint16) {
-	s.Data = binary.LittleEndian.AppendUint16(s.Data, n)
+	s.Data = s.Endian.AppendUint16(s.Data, n)
 }
 func (s *Serializer) AddUint32(n uint32) {
-	s.Data = binary.LittleEndian.AppendUint32(s.Data, n)
+	s.Data = s.Endian.AppendUint32(s.Data, n)
 }
 func (s *Serializer) AddUint64(n uint64) {
-	s.Data = binary.LittleEndian.AppendUint64(s.Data, n)
+	s.Data = s.Endian.AppendUint64(s.Data, n)
 }
 
 func (s *Serializer) AddUvarint(n uint64) {

@@ -7,8 +7,9 @@ import (
 )
 
 type Deserializer struct {
-	Data  []byte
-	Error error
+	Data   []byte
+	Error  error
+	Endian binary.ByteOrder
 }
 
 func (s *Deserializer) ReadUint8() uint8 {
@@ -33,7 +34,7 @@ func (s *Deserializer) ReadUint16() uint16 {
 	}
 	b := s.Data[:2]
 	s.Data = s.Data[2:]
-	return binary.LittleEndian.Uint16(b)
+	return s.Endian.Uint16(b)
 }
 func (s *Deserializer) ReadUint32() uint32 {
 	if s.Error != nil {
@@ -45,7 +46,7 @@ func (s *Deserializer) ReadUint32() uint32 {
 	}
 	b := s.Data[:4]
 	s.Data = s.Data[4:]
-	return binary.LittleEndian.Uint32(b)
+	return s.Endian.Uint32(b)
 }
 func (s *Deserializer) ReadUint64() uint64 {
 	if s.Error != nil {
@@ -57,7 +58,7 @@ func (s *Deserializer) ReadUint64() uint64 {
 	}
 	b := s.Data[:8]
 	s.Data = s.Data[8:]
-	return binary.LittleEndian.Uint64(b)
+	return s.Endian.Uint64(b)
 }
 func (s *Deserializer) ReadUvarint() uint64 {
 	if s.Error != nil {
